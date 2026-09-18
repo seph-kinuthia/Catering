@@ -1,0 +1,2257 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+    --cream: #f2eadb;
+    --paper: #fbf7ee;
+    --espresso: #241710;
+    --brown: #493124;
+    --tomato: #d64b2a;
+    --green: #314d32;
+    --yellow: #f1cf65;
+    --white: #fffdf8;
+    --muted: #a89583;
+    --line-dark: rgba(36, 23, 16, .22);
+    --line-light: rgba(255, 255, 255, .25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: auto;
+}
+
+body {
+    background: var(--espresso);
+    color: var(--espresso);
+    font-family: "DM Sans", sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: none;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+figure {
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    width: 12px;
+    height: 12px;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.cursor-dot {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 50%;
+    background: var(--yellow);
+
+    transition:
+        width .25s ease,
+        height .25s ease,
+        transform .25s ease,
+        background .25s ease;
+}
+
+.cursor-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 6px;
+    letter-spacing: .14em;
+
+    color: white;
+    opacity: 0;
+}
+
+.cursor.active .cursor-dot {
+    width: 72px;
+    height: 72px;
+
+    transform: translate(-30px, -30px);
+
+    background: var(--espresso);
+}
+
+.cursor.active .cursor-label {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader {
+    position: fixed;
+    inset: 0;
+
+    z-index: 9000;
+
+    padding: 32px 4vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: var(--tomato);
+    color: var(--cream);
+}
+
+.loader-top,
+.loader-bottom {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.loader-small {
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 7px;
+    letter-spacing: .2em;
+}
+
+.loader-number {
+    display: block;
+
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(110px, 20vw, 320px);
+    font-weight: 600;
+
+    line-height: .72;
+    letter-spacing: -.1em;
+}
+
+.loader-line {
+    margin-top: 45px;
+
+    width: 100%;
+    height: 1px;
+
+    background: rgba(255,255,255,.3);
+}
+
+.loader-progress {
+    width: 0;
+    height: 100%;
+
+    background: var(--yellow);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: fixed;
+    z-index: 2000;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 82px;
+
+    padding: 0 4vw;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    color: white;
+    mix-blend-mode: difference;
+}
+
+.brand {
+    justify-self: start;
+
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.brand strong {
+    font-family: "Manrope";
+    font-size: 17px;
+    letter-spacing: -.05em;
+}
+
+.brand span {
+    font-size: 6px;
+    letter-spacing: .16em;
+}
+
+.nav-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 6px;
+    letter-spacing: .17em;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+    background: var(--yellow);
+}
+
+.nav-links {
+    justify-self: end;
+
+    display: flex;
+    gap: 24px;
+
+    margin-right: 70px;
+
+    font-size: 6px;
+    letter-spacing: .15em;
+}
+
+.nav-links a {
+    position: relative;
+}
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+
+    width: 0;
+    height: 1px;
+
+    background: currentColor;
+
+    transition: width .25s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.menu-button {
+    position: absolute;
+    right: 4vw;
+
+    font-size: 6px;
+    letter-spacing: .16em;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.page-progress {
+    position: fixed;
+    z-index: 1800;
+
+    right: 1.5vw;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 9px;
+
+    color: white;
+    mix-blend-mode: difference;
+
+    font-size: 6px;
+}
+
+.progress-track {
+    width: 1px;
+    height: 110px;
+
+    background: rgba(255,255,255,.35);
+}
+
+#progressFill {
+    width: 100%;
+    height: 0;
+
+    background: var(--yellow);
+}
+
+.global-meta {
+    position: fixed;
+    z-index: 1800;
+
+    left: 4vw;
+    right: 4vw;
+    bottom: 20px;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: white;
+    mix-blend-mode: difference;
+
+    font-size: 6px;
+    letter-spacing: .16em;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   STAGE
+========================================================= */
+
+.experience {
+    position: relative;
+}
+
+.stage {
+    position: sticky;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: var(--espresso);
+}
+
+.scroll-space {
+    height: 2200vh;
+}
+
+.scene {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform-origin: center;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scene-number {
+    position: absolute;
+    z-index: 100;
+
+    left: 4vw;
+    top: 105px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    font-size: 6px;
+    letter-spacing: .18em;
+}
+
+.scene-number span {
+    font-family: "Manrope";
+    font-size: 19px;
+    letter-spacing: -.05em;
+}
+
+
+/* =========================================================
+   01 HERO
+========================================================= */
+
+.scene-hero {
+    background: var(--cream);
+}
+
+.hero-intro {
+    position: absolute;
+    z-index: 20;
+
+    left: 4vw;
+    right: 4vw;
+    top: 19%;
+}
+
+.hero-intro > span {
+    display: block;
+
+    margin-bottom: 18px;
+
+    font-size: 7px;
+    letter-spacing: .2em;
+}
+
+.hero-intro h1 {
+    font-family: "Manrope";
+    font-size: clamp(90px, 14vw, 220px);
+    font-weight: 600;
+
+    line-height: .66;
+    letter-spacing: -.1em;
+}
+
+.hero-word {
+    position: relative;
+    display: block;
+
+    width: max-content;
+}
+
+.word-the {
+    margin-left: 0;
+}
+
+.word-table {
+    margin-left: 12vw;
+}
+
+.word-is {
+    margin-left: 49vw;
+}
+
+.word-set {
+    margin-left: 58vw;
+
+    color: var(--tomato);
+}
+
+
+/* TABLE */
+
+.hero-table {
+    position: absolute;
+    z-index: 10;
+
+    left: 50%;
+    bottom: -20vh;
+
+    width: 68vw;
+    height: 48vh;
+
+    transform: translateX(-50%);
+
+    perspective: 900px;
+}
+
+.table-surface {
+    position: absolute;
+    inset: 0;
+
+    background: var(--green);
+
+    border-radius: 50% 50% 6px 6px;
+
+    transform: rotateX(58deg);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.25);
+}
+
+.table-object {
+    position: absolute;
+    z-index: 5;
+}
+
+
+/* PLATE */
+
+.object-plate {
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+}
+
+.plate {
+    width: 170px;
+    height: 170px;
+
+    border-radius: 50%;
+
+    background: var(--paper);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.2);
+}
+
+.plate-inner {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 125px;
+    height: 125px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+    border: 1px solid #d5cbb9;
+}
+
+
+/* FORK */
+
+.object-fork {
+    left: 32%;
+    top: 42%;
+}
+
+.fork {
+    position: relative;
+
+    width: 10px;
+    height: 105px;
+
+    background: #c8c3b8;
+
+    border-radius: 5px;
+}
+
+.fork span {
+    position: absolute;
+    top: -20px;
+
+    width: 2px;
+    height: 25px;
+
+    background: #c8c3b8;
+}
+
+.fork span:nth-child(1) {
+    left: 0;
+}
+
+.fork span:nth-child(2) {
+    left: 4px;
+}
+
+.fork span:nth-child(3) {
+    left: 8px;
+}
+
+.fork span:nth-child(4) {
+    left: 12px;
+}
+
+
+/* KNIFE */
+
+.object-knife {
+    right: 31%;
+    top: 40%;
+}
+
+.knife {
+    width: 9px;
+    height: 115px;
+
+    background: #c8c3b8;
+
+    border-radius: 4px 10px 4px 4px;
+}
+
+
+/* NAPKIN */
+
+.object-napkin {
+    left: 21%;
+    top: 34%;
+}
+
+.napkin {
+    width: 105px;
+    height: 80px;
+
+    background: var(--tomato);
+
+    transform: rotate(-9deg);
+}
+
+
+/* GLASS */
+
+.object-glass {
+    right: 24%;
+    top: 20%;
+}
+
+.glass {
+    position: relative;
+
+    width: 54px;
+    height: 65px;
+
+    border: 2px solid rgba(255,255,255,.75);
+    border-radius: 8px 8px 22px 22px;
+}
+
+.glass::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -48px;
+
+    width: 2px;
+    height: 48px;
+
+    transform: translateX(-50%);
+
+    background: rgba(255,255,255,.75);
+}
+
+.glass span {
+    position: absolute;
+
+    left: 50%;
+    bottom: -53px;
+
+    width: 40px;
+    height: 2px;
+
+    transform: translateX(-50%);
+
+    background: rgba(255,255,255,.75);
+}
+
+
+/* FLOWERS */
+
+.object-flowers {
+    left: 48%;
+    top: 12%;
+}
+
+.flower {
+    position: absolute;
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+}
+
+.flower-one {
+    background: var(--yellow);
+
+    left: 0;
+    top: 0;
+}
+
+.flower-two {
+    background: var(--tomato);
+
+    left: 25px;
+    top: 20px;
+}
+
+.flower-three {
+    background: var(--cream);
+
+    left: -20px;
+    top: 28px;
+}
+
+
+/* FOOD */
+
+.object-food {
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%);
+
+    width: 118px;
+    height: 118px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+}
+
+.object-food figure {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+}
+
+.hero-side-copy {
+    position: absolute;
+
+    right: 4vw;
+    top: 33%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    font-size: 6px;
+    letter-spacing: .17em;
+}
+
+.hero-bottom {
+    position: absolute;
+    z-index: 30;
+
+    left: 4vw;
+    right: 4vw;
+    bottom: 50px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.hero-bottom p {
+    width: 190px;
+
+    font-size: 9px;
+    line-height: 1.55;
+}
+
+.hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    font-size: 6px;
+    letter-spacing: .15em;
+}
+
+.hero-scroll i {
+    font-size: 18px;
+    font-style: normal;
+}
+
+
+/* =========================================================
+   02 OCCASIONS
+========================================================= */
+
+.scene-occasions {
+    background: var(--espresso);
+    color: var(--cream);
+}
+
+.occasion-intro {
+    position: absolute;
+
+    left: 5vw;
+    top: 26%;
+
+    z-index: 20;
+}
+
+.occasion-intro span {
+    font-size: 7px;
+    letter-spacing: .2em;
+}
+
+.occasion-intro h2 {
+    margin-top: 10px;
+
+    font-family: "Manrope";
+    font-size: 7vw;
+
+    line-height: .76;
+    letter-spacing: -.08em;
+}
+
+.occasion-table {
+    position: absolute;
+
+    right: 6vw;
+    top: 50%;
+
+    width: 43vw;
+    height: 70vh;
+
+    transform: translateY(-50%);
+}
+
+.occasion-table figure {
+    width: 100%;
+    height: 100%;
+}
+
+.occasion {
+    position: absolute;
+    z-index: 30;
+
+    left: 5vw;
+    bottom: 14%;
+
+    width: 38vw;
+
+    opacity: 0;
+}
+
+.occasion.active {
+    opacity: 1;
+}
+
+.occasion-index {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 7px;
+    letter-spacing: .16em;
+
+    color: var(--yellow);
+}
+
+.occasion h3 {
+    font-family: "Manrope";
+    font-size: 5vw;
+
+    line-height: .78;
+    letter-spacing: -.07em;
+}
+
+.occasion p {
+    width: 200px;
+
+    margin-top: 14px;
+
+    font-size: 9px;
+    line-height: 1.5;
+
+    opacity: .7;
+}
+
+.occasion-counter {
+    position: absolute;
+
+    right: 2vw;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 6px;
+}
+
+.occasion-counter div {
+    width: 1px;
+    height: 60px;
+
+    background: rgba(255,255,255,.3);
+}
+
+
+/* =========================================================
+   03 FOOD TAKEOVER
+========================================================= */
+
+.scene-food {
+    background: var(--tomato);
+    color: var(--cream);
+}
+
+.food-heading {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 85%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 50;
+}
+
+.food-heading > span {
+    display: block;
+
+    margin-bottom: 14px;
+
+    text-align: center;
+
+    font-size: 7px;
+    letter-spacing: .2em;
+}
+
+.food-heading h2 {
+    font-family: "Manrope";
+    font-size: 10vw;
+
+    text-align: center;
+
+    line-height: .67;
+    letter-spacing: -.09em;
+}
+
+.food-heading strong,
+.food-heading em {
+    display: block;
+}
+
+.food-heading strong {
+    color: var(--yellow);
+}
+
+.food-heading em {
+    font-style: normal;
+    color: var(--espresso);
+}
+
+.food-photo {
+    position: absolute;
+
+    z-index: 10;
+
+    border: 5px solid var(--tomato);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.18);
+}
+
+.food-photo figcaption {
+    position: absolute;
+
+    left: 8px;
+    bottom: 8px;
+
+    padding: 5px 7px;
+
+    background: var(--espresso);
+    color: white;
+
+    font-size: 6px;
+    letter-spacing: .14em;
+}
+
+.food-breakfast {
+    left: 5vw;
+    top: 17%;
+
+    width: 25vw;
+    height: 35vh;
+
+    transform: rotate(-5deg);
+}
+
+.food-lunch {
+    right: 6vw;
+    top: 12%;
+
+    width: 27vw;
+    height: 39vh;
+
+    transform: rotate(5deg);
+}
+
+.food-dinner {
+    left: 35vw;
+    bottom: 5%;
+
+    width: 31vw;
+    height: 42vh;
+
+    transform: rotate(-2deg);
+}
+
+.food-dessert {
+    left: 8vw;
+    bottom: 7%;
+
+    width: 20vw;
+    height: 27vh;
+
+    transform: rotate(4deg);
+}
+
+.food-drinks {
+    right: 8vw;
+    bottom: 7%;
+
+    width: 20vw;
+    height: 29vh;
+
+    transform: rotate(-5deg);
+}
+
+
+/* =========================================================
+   04 MENU
+========================================================= */
+
+.scene-menu {
+    background: var(--paper);
+}
+
+.menu-heading {
+    position: absolute;
+
+    left: 5vw;
+    top: 24%;
+
+    width: 28vw;
+
+    z-index: 20;
+}
+
+.menu-heading span {
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.menu-heading h2 {
+    margin-top: 10px;
+
+    font-family: "Manrope";
+    font-size: 5.5vw;
+
+    line-height: .78;
+    letter-spacing: -.07em;
+}
+
+.menu-track {
+    position: absolute;
+
+    left: 39vw;
+    top: 20%;
+
+    display: flex;
+    gap: 8vw;
+
+    width: max-content;
+}
+
+.menu-course {
+    width: 34vw;
+    height: 61vh;
+
+    padding: 28px;
+
+    border: 1px solid var(--line-dark);
+
+    background: var(--cream);
+}
+
+.course-number {
+    display: block;
+
+    margin-bottom: 55px;
+
+    font-family: "Manrope";
+    font-size: 55px;
+
+    line-height: 1;
+    letter-spacing: -.08em;
+
+    color: var(--tomato);
+}
+
+.course-heading span {
+    font-size: 6px;
+    letter-spacing: .17em;
+}
+
+.course-heading h3 {
+    margin-top: 5px;
+
+    font-family: "Manrope";
+    font-size: 3vw;
+
+    letter-spacing: -.06em;
+}
+
+.menu-course ul {
+    margin-top: 35px;
+}
+
+.menu-course li {
+    padding: 10px 0;
+
+    display: flex;
+    justify-content: space-between;
+
+    border-top: 1px solid var(--line-dark);
+
+    font-size: 8px;
+    letter-spacing: .08em;
+}
+
+.menu-note {
+    position: absolute;
+
+    left: 5vw;
+    bottom: 10%;
+
+    width: 220px;
+}
+
+.menu-note span {
+    font-size: 6px;
+    letter-spacing: .16em;
+}
+
+.menu-note p {
+    margin-top: 8px;
+
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   05 ONE PLATE
+========================================================= */
+
+.scene-plate {
+    background: var(--green);
+    color: var(--cream);
+}
+
+.plate-heading {
+    position: absolute;
+
+    left: 5vw;
+    top: 25%;
+}
+
+.plate-heading span {
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.plate-heading h2 {
+    margin-top: 12px;
+
+    font-family: "Manrope";
+    font-size: 6.5vw;
+
+    line-height: .72;
+    letter-spacing: -.08em;
+}
+
+.main-plate {
+    position: absolute;
+
+    left: 63%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.plate-rim {
+    width: 360px;
+    height: 360px;
+
+    padding: 30px;
+
+    border-radius: 50%;
+
+    background: var(--paper);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.25);
+}
+
+.plate-rim figure {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+}
+
+.ingredient {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    font-size: 7px;
+    letter-spacing: .15em;
+}
+
+.ingredient span {
+    color: var(--yellow);
+}
+
+.ingredient-fresh {
+    left: 59%;
+    top: 15%;
+}
+
+.ingredient-local {
+    left: 43%;
+    top: 48%;
+}
+
+.ingredient-seasonal {
+    right: 7%;
+    top: 47%;
+}
+
+.ingredient-care {
+    left: 59%;
+    bottom: 12%;
+}
+
+.plate-statement {
+    position: absolute;
+
+    left: 50%;
+    bottom: 6%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    font-size: 8px;
+    letter-spacing: .15em;
+
+    opacity: 0;
+}
+
+.plate-statement strong {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--yellow);
+}
+
+
+/* =========================================================
+   06 PROCESS
+========================================================= */
+
+.scene-process {
+    background: var(--yellow);
+}
+
+.process-heading {
+    position: absolute;
+
+    left: 5vw;
+    top: 23%;
+}
+
+.process-heading span {
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.process-heading h2 {
+    margin-top: 12px;
+
+    font-family: "Manrope";
+    font-size: 6vw;
+
+    line-height: .74;
+    letter-spacing: -.08em;
+}
+
+.process-photo {
+    position: absolute;
+
+    border: 5px solid var(--yellow);
+}
+
+.process-kitchen {
+    right: 7vw;
+    top: 13%;
+
+    width: 32vw;
+    height: 43vh;
+
+    transform: rotate(4deg);
+}
+
+.process-plating {
+    right: 17vw;
+    bottom: 5%;
+
+    width: 25vw;
+    height: 34vh;
+
+    transform: rotate(-5deg);
+}
+
+.process-time {
+    position: absolute;
+
+    opacity: 0;
+}
+
+.process-time span {
+    display: block;
+
+    font-size: 8px;
+    letter-spacing: .15em;
+}
+
+.process-time strong {
+    display: block;
+
+    font-family: "Manrope";
+    font-size: 8vw;
+
+    line-height: .8;
+    letter-spacing: -.08em;
+}
+
+.time-prep {
+    left: 5vw;
+    bottom: 15%;
+}
+
+.time-cook {
+    left: 28vw;
+    top: 25%;
+}
+
+.time-plate {
+    left: 36vw;
+    bottom: 15%;
+}
+
+.time-set {
+    right: 8vw;
+    top: 20%;
+}
+
+.process-showtime {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100%;
+
+    transform: translate(-50%, -50%) scale(.5);
+
+    text-align: center;
+
+    opacity: 0;
+
+    z-index: 60;
+}
+
+.process-showtime span {
+    font-size: 8px;
+    letter-spacing: .18em;
+}
+
+.process-showtime h2 {
+    font-family: "Manrope";
+    font-size: 16vw;
+
+    line-height: .75;
+    letter-spacing: -.1em;
+
+    color: var(--tomato);
+}
+
+
+/* =========================================================
+   07 BEFORE / AFTER
+========================================================= */
+
+.scene-transformation {
+    background: var(--espresso);
+    color: var(--cream);
+}
+
+.transformation-heading {
+    position: absolute;
+
+    left: 5vw;
+    top: 24%;
+
+    z-index: 50;
+}
+
+.transformation-heading span {
+    display: block;
+
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.transformation-heading strong {
+    display: block;
+
+    margin-top: 5px;
+
+    font-family: "Manrope";
+    font-size: 6vw;
+
+    letter-spacing: -.07em;
+}
+
+.before-after {
+    position: absolute;
+    inset: 0;
+}
+
+.before-image,
+.after-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.after-image {
+    clip-path: inset(0 100% 0 0);
+}
+
+.before-image::after,
+.after-image::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(20,10,5,.18);
+}
+
+.before-image figcaption,
+.after-image figcaption {
+    position: absolute;
+    z-index: 10;
+
+    bottom: 45px;
+
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.before-image figcaption {
+    left: 5vw;
+}
+
+.after-image figcaption {
+    right: 5vw;
+}
+
+.reveal-line {
+    position: absolute;
+    z-index: 40;
+
+    left: 0;
+    top: 0;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    color: white;
+
+    font-size: 6px;
+    letter-spacing: .14em;
+}
+
+.reveal-line div {
+    width: 1px;
+    height: 75vh;
+
+    background: white;
+}
+
+
+/* =========================================================
+   08 MOMENTS
+========================================================= */
+
+.scene-moments {
+    background: var(--cream);
+}
+
+.moments-opening {
+    position: absolute;
+
+    left: 5vw;
+    top: 24%;
+}
+
+.moments-opening span {
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.moments-opening h2 {
+    margin-top: 10px;
+
+    font-family: "Manrope";
+    font-size: 7vw;
+
+    line-height: .75;
+    letter-spacing: -.08em;
+}
+
+.moment-photo {
+    position: absolute;
+
+    border: 5px solid var(--cream);
+}
+
+.moment-one {
+    right: 8vw;
+    top: 10%;
+
+    width: 30vw;
+    height: 43vh;
+
+    transform: rotate(4deg);
+}
+
+.moment-two {
+    left: 10vw;
+    bottom: 4%;
+
+    width: 25vw;
+    height: 33vh;
+
+    transform: rotate(-4deg);
+}
+
+.moment-three {
+    left: 39vw;
+    bottom: 7%;
+
+    width: 22vw;
+    height: 37vh;
+
+    transform: rotate(5deg);
+}
+
+.moment-four {
+    right: 7vw;
+    bottom: 6%;
+
+    width: 26vw;
+    height: 31vh;
+
+    transform: rotate(-3deg);
+}
+
+.moments-statement {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 90%;
+
+    transform: translate(-50%, -50%) scale(.5);
+
+    z-index: 50;
+
+    text-align: center;
+
+    opacity: 0;
+}
+
+.moments-statement span {
+    display: block;
+
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.moments-statement strong {
+    display: block;
+
+    font-family: "Manrope";
+    font-size: 9vw;
+
+    line-height: .78;
+    letter-spacing: -.08em;
+}
+
+.moments-statement strong:last-child {
+    color: var(--tomato);
+}
+
+
+/* =========================================================
+   09 NUMBERS
+========================================================= */
+
+.scene-numbers {
+    background: var(--espresso);
+    color: var(--cream);
+}
+
+.number-stat {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 90%;
+
+    transform: translate(-50%, -50%) scale(.6);
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 30px;
+
+    opacity: 0;
+}
+
+.number-stat strong {
+    font-family: "Manrope";
+    font-size: 25vw;
+
+    line-height: .65;
+    letter-spacing: -.12em;
+
+    color: var(--yellow);
+}
+
+.number-stat span {
+    padding-bottom: 12px;
+
+    font-size: 8px;
+    line-height: 1.5;
+    letter-spacing: .16em;
+}
+
+.numbers-note {
+    position: absolute;
+
+    left: 50%;
+    bottom: 8%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    opacity: 0;
+}
+
+.numbers-note span {
+    display: block;
+
+    font-size: 6px;
+    letter-spacing: .16em;
+}
+
+.numbers-note strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--yellow);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   10 TESTIMONIALS
+========================================================= */
+
+.scene-testimonials {
+    background: var(--green);
+    color: white;
+}
+
+.testimonial-background {
+    position: absolute;
+    inset: 0;
+
+    opacity: .22;
+}
+
+.testimonial-background::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: var(--green);
+    opacity: .55;
+}
+
+.testimonial {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 80%;
+
+    transform: translate(-50%, -50%) scale(.8);
+
+    opacity: 0;
+
+    z-index: 20;
+}
+
+.testimonial p {
+    font-family: "Manrope";
+    font-size: 7.5vw;
+
+    line-height: .82;
+    letter-spacing: -.075em;
+}
+
+.testimonial footer {
+    margin-top: 30px;
+
+    display: flex;
+    gap: 25px;
+
+    font-size: 6px;
+    letter-spacing: .16em;
+}
+
+.testimonial footer span {
+    opacity: .6;
+}
+
+
+/* =========================================================
+   11 BOOKING
+========================================================= */
+
+.scene-booking {
+    background: var(--tomato);
+    color: var(--cream);
+}
+
+.booking-heading {
+    position: absolute;
+
+    left: 5vw;
+    top: 24%;
+}
+
+.booking-heading span {
+    font-size: 7px;
+    letter-spacing: .18em;
+}
+
+.booking-heading h2 {
+    margin-top: 12px;
+
+    font-family: "Manrope";
+    font-size: 8vw;
+
+    line-height: .67;
+    letter-spacing: -.09em;
+}
+
+.booking-builder {
+    position: absolute;
+
+    right: 7vw;
+    top: 50%;
+
+    width: 47vw;
+    height: 60vh;
+
+    transform: translateY(-50%);
+
+    border-top: 1px solid rgba(255,255,255,.35);
+    border-bottom: 1px solid rgba(255,255,255,.35);
+}
+
+.booking-step {
+    position: absolute;
+    inset: 0;
+
+    padding: 35px 0;
+
+    opacity: 0;
+    visibility: hidden;
+}
+
+.booking-step-one {
+    opacity: 1;
+    visibility: visible;
+}
+
+.step-number {
+    display: block;
+
+    margin-bottom: 35px;
+
+    font-size: 7px;
+    letter-spacing: .17em;
+}
+
+.booking-step h3 {
+    width: 80%;
+
+    font-family: "Manrope";
+    font-size: 3.6vw;
+
+    line-height: .85;
+    letter-spacing: -.06em;
+}
+
+.occasion-options {
+    margin-top: 35px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.occasion-options button {
+    padding: 11px 16px;
+
+    border: 1px solid rgba(255,255,255,.6);
+
+    border-radius: 50px;
+
+    font-size: 7px;
+    letter-spacing: .13em;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+}
+
+.occasion-options button:hover,
+.occasion-options button.selected {
+    background: var(--cream);
+    color: var(--espresso);
+}
+
+.guest-counter {
+    margin-top: 55px;
+
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.guest-counter button {
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid rgba(255,255,255,.5);
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: 20px;
+}
+
+.guest-counter strong {
+    font-family: "Manrope";
+    font-size: 80px;
+
+    line-height: 1;
+    letter-spacing: -.08em;
+}
+
+.booking-fields {
+    margin-top: 40px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.booking-fields label span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 6px;
+    letter-spacing: .16em;
+}
+
+.booking-fields input {
+    width: 100%;
+
+    padding: 12px 0;
+
+    border: 0;
+    border-bottom: 1px solid rgba(255,255,255,.6);
+
+    outline: none;
+
+    background: transparent;
+    color: white;
+
+    font-size: 11px;
+}
+
+.booking-fields input::placeholder {
+    color: rgba(255,255,255,.6);
+}
+
+.booking-submit {
+    margin-top: 35px;
+
+    width: 210px;
+
+    padding: 15px 18px;
+
+    display: flex;
+    justify-content: space-between;
+
+    background: var(--cream);
+    color: var(--espresso);
+
+    font-size: 7px;
+    letter-spacing: .14em;
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.scene-final {
+    background: var(--espresso);
+    color: white;
+}
+
+.final-background,
+.final-overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.final-background {
+    width: 100%;
+    height: 100%;
+}
+
+.final-overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20,10,5,.82),
+            rgba(20,10,5,.28)
+        );
+}
+
+.final-brand {
+    position: absolute;
+
+    left: 4vw;
+    top: 110px;
+
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    z-index: 20;
+}
+
+.final-brand strong {
+    font-family: "Manrope";
+    font-size: 18px;
+}
+
+.final-brand span {
+    font-size: 6px;
+    letter-spacing: .15em;
+}
+
+.final-copy {
+    position: absolute;
+
+    left: 5vw;
+    top: 48%;
+
+    transform: translateY(-50%);
+
+    z-index: 20;
+}
+
+.final-copy > span {
+    font-size: 7px;
+    letter-spacing: .2em;
+}
+
+.final-copy h2 {
+    margin-top: 12px;
+
+    font-family: "Manrope";
+    font-size: 9vw;
+
+    line-height: .72;
+    letter-spacing: -.09em;
+}
+
+.final-copy strong {
+    display: block;
+
+    color: var(--yellow);
+}
+
+.final-cta {
+    position: absolute;
+
+    right: 7vw;
+    bottom: 15%;
+
+    z-index: 30;
+
+    width: 175px;
+    height: 175px;
+
+    padding: 25px;
+
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: var(--tomato);
+    color: white;
+}
+
+.final-cta span {
+    font-size: 8px;
+    letter-spacing: .15em;
+}
+
+.final-cta strong {
+    align-self: flex-end;
+
+    font-size: 22px;
+}
+
+.footer {
+    position: absolute;
+
+    z-index: 30;
+
+    left: 4vw;
+    right: 4vw;
+    bottom: 20px;
+
+    padding-top: 12px;
+
+    border-top: 1px solid rgba(255,255,255,.3);
+
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 6px;
+    letter-spacing: .13em;
+}
+
+.footer > div {
+    display: flex;
+    gap: 17px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    body {
+        cursor: auto;
+    }
+
+    .cursor,
+    .nav-status,
+    .nav-links,
+    .page-progress {
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .menu-button {
+        position: static;
+    }
+
+    .hero-intro h1 {
+        font-size: 18vw;
+    }
+
+    .word-table {
+        margin-left: 5vw;
+    }
+
+    .word-is {
+        margin-left: 35vw;
+    }
+
+    .word-set {
+        margin-left: 42vw;
+    }
+
+    .hero-table {
+        width: 90vw;
+    }
+
+    .occasion-intro h2 {
+        font-size: 11vw;
+    }
+
+    .occasion-table {
+        width: 55vw;
+    }
+
+    .occasion h3 {
+        font-size: 8vw;
+    }
+
+    .food-heading h2 {
+        font-size: 14vw;
+    }
+
+    .menu-heading {
+        width: 35vw;
+    }
+
+    .menu-heading h2 {
+        font-size: 8vw;
+    }
+
+    .menu-course {
+        width: 55vw;
+    }
+
+    .main-plate {
+        left: 68%;
+    }
+
+    .plate-rim {
+        width: 280px;
+        height: 280px;
+    }
+
+    .process-heading h2 {
+        font-size: 9vw;
+    }
+
+    .testimonial p {
+        font-size: 10vw;
+    }
+
+    .booking-heading h2 {
+        font-size: 12vw;
+    }
+
+    .booking-builder {
+        width: 52vw;
+    }
+
+    .booking-step h3 {
+        font-size: 5vw;
+    }
+
+    .final-copy h2 {
+        font-size: 13vw;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+
+}
